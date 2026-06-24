@@ -1,44 +1,51 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { IntentService } from '../../core/services/intent.service';
-import { Intent, Strategy, RiskLevel, AuthType } from '../../core/models/intent.model';
+import { Intent } from '../../core/models/intent.model';
 import { IntentDetailPanelComponent } from './intent-detail-panel.component';
-
-interface FilterState {
-  domain: string;
-  risk: string;
-  authentication: string;
-  strategy: string;
-  status: string;
-}
-
-const EMPTY_FILTERS: FilterState = { domain: '', risk: '', authentication: '', strategy: '', status: '' };
+import { IntentsStatsComponent } from './components/stats-cards/stats-cards.component';
+import { IntentsToolbarComponent } from './components/intents-toolbar/intents-toolbar.component';
+import { IntentsTableComponent } from './components/intents-table/intents-table.component';
+import { IntentModalComponent } from './components/intent-modal/intent-modal.component';
+import { FilterState, EMPTY_FILTERS, IntentFormData } from './intents.types';
 
 @Component({
   selector: 'app-intents',
   standalone: true,
-  imports: [CommonModule, FormsModule, IntentDetailPanelComponent],
+  imports: [
+    CommonModule,
+    IntentDetailPanelComponent,
+    IntentsStatsComponent,
+    IntentsToolbarComponent,
+    IntentsTableComponent,
+    IntentModalComponent,
+  ],
   templateUrl: './intents.component.html',
   styleUrl: './intents.component.scss',
 })
 export class IntentsComponent {
   readonly intentService = inject(IntentService);
+
+  // ---- Detail panel ----
   readonly selectedIntent = signal<Intent | null>(null);
 
+  // ---- Search / Filter / Pagination ----
   readonly searchQuery = signal('');
   readonly pageSize = signal(10);
-  private _currentPage = signal(1);
+  private readonly _currentPage = signal(1);
   readonly currentPage = this._currentPage.asReadonly();
 
-  readonly filtersOpen = signal(false);
-  pendingFilters: FilterState = { ...EMPTY_FILTERS };
   private readonly _appliedFilters = signal<FilterState>({ ...EMPTY_FILTERS });
+  readonly appliedFilters = this._appliedFilters.asReadonly();
 
-  readonly domainOptions = computed(() =>
-    [...new Set(this.intentService.intents().map(i => i.domain))].sort()
-  );
+  // ---- Edit Modal ----
+  readonly editModalIntent = signal<Intent | null>(null);
+  readonly editLoading = signal(false);
 
+  // ---- New Intent Modal ----
+  readonly newModalOpen = signal(false);
+
+  // ---- Computed ----
   readonly activeFilterCount = computed(() => {
     const f = this._appliedFilters();
     return [f.domain, f.risk, f.authentication, f.strategy, f.status].filter(v => v !== '').length;
@@ -84,71 +91,21 @@ export class IntentsComponent {
     return this.filteredIntents().slice(start, start + this.pageSize());
   });
 
-  toggleFilters(): void {
-    const opening = !this.filtersOpen();
-    this.filtersOpen.set(opening);
-    if (opening) this.pendingFilters = { ...this._appliedFilters() };
-  }
-
-  applyFilters(): void {
-    this._appliedFilters.set({ ...this.pendingFilters });
+  // ---- Toolbar events ----
+  onSearchChange(q: string): void {
+    this.searchQuery.set(q);
     this._currentPage.set(1);
-    this.filtersOpen.set(false);
   }
 
-  resetFilters(): void {
-    this.pendingFilters = { ...EMPTY_FILTERS };
+  onFilterApply(filters: FilterState): void {
+    this._appliedFilters.set(filters);
+    this._currentPage.set(1);
+  }
+
+  onFilterReset(): void {
     this._appliedFilters.set({ ...EMPTY_FILTERS });
     this._currentPage.set(1);
-    this.filtersOpen.set(false);
   }
-
-  onSearch(): void { this._currentPage.set(1); }
-  onPageSizeChange(): void { this._currentPage.set(1); }
-
-  goToPage(page: number): void {
-    if (page >= 1 && page <= this.totalPages()) this._currentPage.set(page);
-  }
-
-  prevPage(): void { this.goToPage(this._currentPage() - 1); }
-  nextPage(): void { this.goToPage(this._currentPage() + 1); }
-
-  onRowClick(intent: Intent): void { this.selectedIntent.set(intent); }
-
-  onDeleteExample(example: string): void {
-    const intent = this.selectedIntent();
-    if (!intent) return;
-    const updated = { ...intent, trainingExamples: (intent.trainingExamples ?? []).filter(e => e !== example) };
-    this.intentService.updateIntent(updated);
-    this.selectedIntent.set(updated);
-  }
-
-  onAddExample(example: string): void {
-    const intent = this.selectedIntent();
-    if (!intent) return;
-    const updated = { ...intent, trainingExamples: [...(intent.trainingExamples ?? []), example] };
-    this.intentService.updateIntent(updated);
-    this.selectedIntent.set(updated);
-  }
-
-  onEdit(event: Event, intent: Intent): void {
-    event.stopPropagation();
-    console.log('Edit:', intent);
-  }
-
-  onDelete(event: Event, intent: Intent): void {
-    event.stopPropagation();
-    if (confirm(`Delete "${intent.name}"?`)) this.intentService.deleteIntent(intent.id);
-  }
-
-  onMore(event: Event, intent: Intent): void {
-    event.stopPropagation();
-    console.log('More:', intent);
-  }
-
-  onReloadRegistry(): void { this.intentService.loadIntents(); }
-  onFullRefresh(): void { console.log('Full Refresh'); }
-  onNewIntent(): void { console.log('New Intent'); }
 
   onExportCsv(): void {
     const headers = ['Name', 'Code', 'Domain', 'Category', 'Strategy', 'Risk', 'Authentication', 'Status'];
@@ -165,24 +122,125 @@ export class IntentsComponent {
     URL.revokeObjectURL(url);
   }
 
-  getStrategyClass(strategy: Strategy): string {
-    const map: Record<Strategy, string> = {
-      API: 'badge-api', RAG: 'badge-rag', HYBRID: 'badge-hybrid', ESCALATE: 'badge-escalate',
-    };
-    return map[strategy] ?? '';
+  // ---- Table events ----
+  onRowClick(intent: Intent): void { this.selectedIntent.set(intent); }
+
+  onEditClick(intent: Intent): void {
+    this.editLoading.set(true);
+    this.editModalIntent.set(intent);
+
+    this.intentService.loadIntentDetail(intent.code).subscribe({
+      next: (detail) => {
+        this.editModalIntent.set(detail);
+        this.editLoading.set(false);
+      },
+      error: () => {
+        this.editLoading.set(false);
+      },
+    });
   }
 
-  getRiskClass(risk: RiskLevel): string {
-    const map: Record<RiskLevel, string> = {
-      LOW: 'badge-risk-low', MEDIUM: 'badge-risk-medium', HIGH: 'badge-risk-high',
-    };
-    return map[risk] ?? '';
+  onDeleteClick(intent: Intent): void {
+    if (confirm(`Delete "${intent.name}"?`)) {
+      this.intentService.deleteIntent(intent.id);
+    }
   }
 
-  getAuthClass(auth: AuthType): string {
-    const map: Record<AuthType, string> = {
-      AUTHENTICATED: 'badge-auth-authenticated', STEP_UP: 'badge-auth-step-up', NONE: 'badge-auth-none',
+  onViewDetails(intent: Intent): void { this.selectedIntent.set(intent); }
+
+  onDuplicateIntent(intent: Intent): void {
+    const copy: Intent = {
+      ...intent,
+      id: crypto.randomUUID(),
+      name: intent.name + ' (Copy)',
+      code: intent.code + '_COPY',
     };
-    return map[auth] ?? '';
+    this.intentService.addIntent(copy);
+  }
+
+  onToggleStatus(intent: Intent): void {
+    const updated: Intent = { ...intent, status: intent.status === 'Active' ? 'Inactive' : 'Active' };
+    this.intentService.updateIntent(updated);
+    if (this.selectedIntent()?.id === intent.id) this.selectedIntent.set(updated);
+  }
+
+  onPageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) this._currentPage.set(page);
+  }
+
+  onPageSizeChange(size: number): void {
+    this.pageSize.set(size);
+    this._currentPage.set(1);
+  }
+
+  // ---- Edit modal events ----
+  onEditSave(formData: IntentFormData): void {
+    const intent = this.editModalIntent();
+    if (!intent) return;
+    const updated: Intent = {
+      ...intent,
+      name: formData.name,
+      description: formData.description,
+      strategy: formData.strategy,
+      risk: formData.risk,
+      authentication: formData.authentication,
+      status: formData.status,
+      releasePhase: formData.releasePhase,
+      trainingExamples: formData.trainingExamples,
+      channels: formData.channels,
+    };
+    this.intentService.updateIntent(updated);
+    if (this.selectedIntent()?.id === intent.id) this.selectedIntent.set(updated);
+    this.closeEditModal();
+  }
+
+  closeEditModal(): void {
+    this.editModalIntent.set(null);
+    this.editLoading.set(false);
+  }
+
+  // ---- New Intent modal events ----
+  onNewIntentSave(formData: IntentFormData): void {
+    const newIntent: Intent = {
+      id: crypto.randomUUID(),
+      name: formData.name,
+      code: formData.code,
+      domain: formData.domain,
+      category: formData.category,
+      description: formData.description,
+      status: formData.status,
+      strategy: formData.strategy,
+      risk: formData.risk,
+      authentication: formData.authentication,
+      releasePhase: formData.releasePhase,
+      trainingExamples: formData.trainingExamples,
+      channels: formData.channels,
+    };
+    this.intentService.addIntent(newIntent);
+    this.newModalOpen.set(false);
+  }
+
+  closeNewModal(): void { this.newModalOpen.set(false); }
+
+  // ---- Header buttons ----
+  onReloadRegistry(): void { this.intentService.loadIntents(); }
+  onFullRefresh(): void { this.intentService.loadIntents(); }
+  onNewIntent(): void { this.newModalOpen.set(true); }
+
+  // ---- Detail panel events ----
+  onDeleteExample(example: string): void {
+    const intent = this.selectedIntent();
+    if (!intent) return;
+    const updated = { ...intent, trainingExamples: (intent.trainingExamples ?? []).filter(e => e !== example) };
+    this.intentService.updateIntent(updated);
+    this.selectedIntent.set(updated);
+  }
+
+  onAddExample(example: string): void {
+    const intent = this.selectedIntent();
+    if (!intent) return;
+    const updated = { ...intent, trainingExamples: [...(intent.trainingExamples ?? []), example] };
+    this.intentService.updateIntent(updated);
+    this.selectedIntent.set(updated);
   }
 }

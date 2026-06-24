@@ -1,0 +1,229 @@
+<aside class="sidebar" [class.collapsed]="sidebarState.isCollapsed()">
+  <!-- Brand -->
+  <div class="sidebar-brand">
+    <div class="brand-logo">BMO</div>
+    @if (!sidebarState.isCollapsed()) {
+      <div class="brand-info">
+        <p class="brand-name">ConvBanking Admin</p>
+        <p class="brand-env">QA4 Environment</p>
+      </div>
+    }
+  </div>
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+
+    <!-- Convo Banking -->
+    <div class="nav-section">
+      <button class="nav-section-btn" [class.active]="sections[0].expanded"
+        (click)="toggleSection(0)"
+        [title]="sidebarState.isCollapsed() ? 'Convo Banking' : ''">
+        <div class="nav-section-left">
+          <span class="nav-icon" [class.active]="sections[0].expanded">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </span>
+          @if (!sidebarState.isCollapsed()) {
+            <span class="nav-label">Convo Banking</span>
+          }
+        </div>
+        @if (!sidebarState.isCollapsed()) {
+          <span class="nav-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              [style.transform]="sections[0].expanded ? 'rotate(0deg)' : 'rotate(-90deg)'"
+              style="transition: transform 250ms ease-in-out">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </span>
+        }
+      </button>
+      @if (!sidebarState.isCollapsed()) {
+        <div class="nav-sub-list" [style.max-height]="sections[0].expanded ? '300px' : '0px'">
+          <a routerLink="/conversations" routerLinkActive="sub-item-active" class="nav-sub-item">
+            <span class="sub-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+              </svg>
+            </span>
+            <span>Conversations</span>
+          </a>
+          <a routerLink="/intents" routerLinkActive="sub-item-active" class="nav-sub-item">
+            <span class="sub-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>
+              </svg>
+            </span>
+            <span>Intents</span>
+          </a>
+          <a routerLink="/knowledge-base" routerLinkActive="sub-item-active" class="nav-sub-item">
+            <span class="sub-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
+              </svg>
+            </span>
+            <span>Knowledge Base</span>
+          </a>
+          <a routerLink="/analytics" routerLinkActive="sub-item-active" class="nav-sub-item">
+            <span class="sub-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/>
+              </svg>
+            </span>
+            <span>Analytics</span>
+          </a>
+          <a routerLink="/prompt-management" routerLinkActive="sub-item-active" class="nav-sub-item">
+            <span class="sub-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 12H3"/><path d="M17 18H3"/><path d="M21 6H3"/>
+              </svg>
+            </span>
+            <span>Prompt Management</span>
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- AI Configuration -->
+    <div class="nav-section">
+      <button class="nav-section-btn" (click)="toggleSection(1)" [title]="sidebarState.isCollapsed() ? 'AI Configuration' : ''">
+        <div class="nav-section-left">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+              <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+              <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+            </svg>
+          </span>
+          @if (!sidebarState.isCollapsed()) {
+            <span class="nav-label">AI Configuration</span>
+          }
+        </div>
+        @if (!sidebarState.isCollapsed()) {
+          <span class="nav-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              [style.transform]="sections[1].expanded ? 'rotate(0deg)' : 'rotate(-90deg)'"
+              style="transition: transform 250ms ease-in-out">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </span>
+        }
+      </button>
+      @if (!sidebarState.isCollapsed()) {
+        <div class="nav-sub-list" [style.max-height]="sections[1].expanded ? '300px' : '0px'">
+          <a class="nav-sub-item" routerLink="/ai/users" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span>User Management</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/ai/roles" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></span>
+            <span>Roles &amp; Permissions</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/ai/audit" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span>Audit Logs</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/ai/toggles" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="12" x="2" y="6" rx="6" ry="6"/><circle cx="8" cy="12" r="2"/></svg></span>
+            <span>Feature Toggles</span>
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- System Configuration -->
+    <div class="nav-section">
+      <button class="nav-section-btn" (click)="toggleSection(2)" [title]="sidebarState.isCollapsed() ? 'System Configuration' : ''">
+        <div class="nav-section-left">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </span>
+          @if (!sidebarState.isCollapsed()) {
+            <span class="nav-label">System Configuration</span>
+          }
+        </div>
+        @if (!sidebarState.isCollapsed()) {
+          <span class="nav-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              [style.transform]="sections[2].expanded ? 'rotate(0deg)' : 'rotate(-90deg)'"
+              style="transition: transform 250ms ease-in-out">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </span>
+        }
+      </button>
+      @if (!sidebarState.isCollapsed()) {
+        <div class="nav-sub-list" [style.max-height]="sections[2].expanded ? '400px' : '0px'">
+          <a class="nav-sub-item" routerLink="/sys/channels" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg></span>
+            <span>Channels</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/sys/integrations" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg></span>
+            <span>Integrations</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/sys/env" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+            <span>Environment Settings</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/sys/banner" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg></span>
+            <span>Banner Messaging</span>
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- Monitoring -->
+    <div class="nav-section">
+      <button class="nav-section-btn" (click)="toggleSection(3)" [title]="sidebarState.isCollapsed() ? 'Monitoring' : ''">
+        <div class="nav-section-left">
+          <span class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
+            </svg>
+          </span>
+          @if (!sidebarState.isCollapsed()) {
+            <span class="nav-label">Monitoring</span>
+          }
+        </div>
+        @if (!sidebarState.isCollapsed()) {
+          <span class="nav-chevron">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              [style.transform]="sections[3].expanded ? 'rotate(0deg)' : 'rotate(-90deg)'"
+              style="transition: transform 250ms ease-in-out">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </span>
+        }
+      </button>
+      @if (!sidebarState.isCollapsed()) {
+        <div class="nav-sub-list" [style.max-height]="sections[3].expanded ? '200px' : '0px'">
+          <a class="nav-sub-item" routerLink="/monitoring/performance" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></span>
+            <span>Performance</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/monitoring/errors" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+            <span>Errors</span>
+          </a>
+          <a class="nav-sub-item" routerLink="/monitoring/health" routerLinkActive="sub-item-active">
+            <span class="sub-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+            <span>Health Dashboard</span>
+          </a>
+        </div>
+      }
+    </div>
+
+  </nav>
+
+  <!-- Footer -->
+  <div class="sidebar-footer">
+    @if (!sidebarState.isCollapsed()) {
+      <span class="app-version">App Version: 2607.201.24-1</span>
+    }
+  </div>
+</aside>

@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  font-family: 'Heebo', sans-serif;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px 24px;
+  background: rgb(247, 248, 250);
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1px solid rgb(228, 232, 238);
+  border-radius: 12px;
+  padding: 16px 20px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+  font-weight: 400;
+  font-family: 'Heebo', sans-serif;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+  margin: 0;
+  font-family: 'Heebo', sans-serif;
+}
+
+.stat-blue   { color: rgb(0, 121, 193); }
+.stat-green  { color: rgb(22, 163, 74); }
+.stat-indigo { color: rgb(79, 70, 229); }
+.stat-purple { color: rgb(109, 40, 217); }

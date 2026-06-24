@@ -1,0 +1,107 @@
+<div class="toolbar">
+  <!-- Search -->
+  <div class="search-wrapper">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+    </svg>
+    <input
+      class="search-input"
+      placeholder="Search intents..."
+      [ngModel]="searchQuery()"
+      (ngModelChange)="onSearchInput($event)"
+    />
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-anchor" (click)="$event.stopPropagation()">
+    <button
+      class="btn btn-outline"
+      [class.btn-filter-active]="activeFilterCount() > 0"
+      (click)="toggleFilterPanel()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"/>
+      </svg>
+      Filters
+      @if (activeFilterCount() > 0) {
+        <span class="filter-badge">{{ activeFilterCount() }}</span>
+      }
+    </button>
+
+    @if (filterPanelOpen()) {
+      <div class="filter-panel">
+        <div class="filter-panel-header">
+          <span class="filter-panel-title">Filters</span>
+          <button class="filter-close-btn" (click)="filterPanelOpen.set(false)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="filter-panel-body">
+          <div class="filter-field">
+            <label class="filter-label">DOMAIN</label>
+            <select class="filter-select" [(ngModel)]="pendingFilters.domain">
+              <option value="">All Domains</option>
+              @for (d of domainOptions(); track d) {
+                <option [value]="d">{{ d }}</option>
+              }
+            </select>
+          </div>
+          <div class="filter-field">
+            <label class="filter-label">RISK LEVEL</label>
+            <select class="filter-select" [(ngModel)]="pendingFilters.risk">
+              <option value="">All</option>
+              <option>LOW</option>
+              <option>MEDIUM</option>
+              <option>HIGH</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label class="filter-label">AUTHENTICATION</label>
+            <select class="filter-select" [(ngModel)]="pendingFilters.authentication">
+              <option value="">All</option>
+              <option>AUTHENTICATED</option>
+              <option>STEP_UP</option>
+              <option>NONE</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label class="filter-label">STRATEGY</label>
+            <select class="filter-select" [(ngModel)]="pendingFilters.strategy">
+              <option value="">All</option>
+              <option>API</option>
+              <option>HYBRID</option>
+              <option>RAG</option>
+              <option>ESCALATE</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label class="filter-label">STATUS</label>
+            <select class="filter-select" [(ngModel)]="pendingFilters.status">
+              <option value="">All</option>
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-panel-footer">
+          <button class="btn-filter-reset" (click)="resetFilters()">Reset All</button>
+          <button class="btn-filter-apply" (click)="applyFilters()">Apply Filters</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Right -->
+  <div class="toolbar-right">
+    <span class="count-label">{{ intentsCount() }} intents</span>
+    <button class="btn btn-outline" (click)="exportCsv.emit()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" x2="12" y1="15" y2="3"/>
+      </svg>
+      Export CSV
+    </button>
+  </div>
+</div>

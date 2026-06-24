@@ -1,0 +1,43 @@
+<header class="app-header">
+  <!-- Left: Sidebar toggle + Page title -->
+  <div class="header-left">
+    <button class="menu-btn" (click)="sidebarState.toggle()" aria-label="Toggle sidebar">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect width="18" height="18" x="3" y="3" rx="2"/>
+        <path d="M9 3v18"/>
+        <path d="m16 15-3-3 3-3"/>
+      </svg>
+    </button>
+    <span class="page-label">Intents</span>
+  </div>
+
+  <!-- Center: BMO Logo -->
+  <div class="header-center">
+    <div class="bmo-logo">BMO</div>
+  </div>
+
+  <!-- Right: Search + User -->
+  <div class="header-right">
+    <div class="search-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input class="search-input" placeholder="Find a customer" type="search" />
+    </div>
+
+    <div class="user-section">
+      <div class="user-avatar">AD</div>
+      <div class="user-info">
+        <p class="user-name">admin</p>
+        <p class="user-role">Admin</p>
+      </div>
+      <button class="close-btn" title="Sign out">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>

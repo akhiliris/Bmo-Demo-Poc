@@ -1,0 +1,180 @@
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
+.app-header {
+  height: 64px;
+  background: linear-gradient(90deg, rgb(0, 121, 193) 0%, rgb(30, 136, 229) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: relative;
+  font-family: 'Heebo', sans-serif;
+}
+
+// ---- Left ----
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+}
+
+.page-label {
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Heebo', sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+// ---- Center ----
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.bmo-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgb(237, 28, 36);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 12px;
+  font-family: 'Heebo', sans-serif;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+// ---- Right ----
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 192px;
+  padding: 7px 12px 7px 32px;
+  font-size: 12px;
+  font-family: 'Heebo', sans-serif;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  outline: none;
+  color: #ffffff;
+
+  &::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+  &:focus {
+    background: rgba(255, 255, 255, 0.20);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  // Remove browser default search cancel button styling
+  &::-webkit-search-cancel-button { -webkit-appearance: none; }
+}
+
+// ---- User section (separated by left border) ----
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: rgb(29, 78, 216);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Heebo', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+
+  p { margin: 0; }
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Heebo', sans-serif;
+  color: #ffffff;
+}
+
+.user-role {
+  font-size: 11px;
+  font-family: 'Heebo', sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.15s, color 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+}

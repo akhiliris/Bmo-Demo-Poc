@@ -1,0 +1,21 @@
+<div class="stats-grid">
+  <div class="stat-card">
+    <p class="stat-label">Total Intents</p>
+    <p class="stat-value stat-blue">{{ intentService.totalIntents() }}</p>
+  </div>
+
+  <div class="stat-card">
+    <p class="stat-label">Active</p>
+    <p class="stat-value stat-green">{{ intentService.activeCount() }}</p>
+  </div>
+
+  <div class="stat-card">
+    <p class="stat-label">API Enabled</p>
+    <p class="stat-value stat-indigo">{{ intentService.apiEnabledCount() }}</p>
+  </div>
+
+  <div class="stat-card">
+    <p class="stat-label">RAG Enabled</p>
+    <p class="stat-value stat-purple">{{ intentService.ragEnabledCount() }}</p>
+  </div>
+</div>
