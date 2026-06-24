@@ -1,0 +1,170 @@
+<div class="panel">
+  <!-- Header -->
+  <div class="panel-header">
+    <div class="header-top">
+      <div class="header-title-block">
+        <h2 class="panel-title">{{ intent().name }}</h2>
+        <code class="panel-code">{{ intent().code }}</code>
+      </div>
+      <div class="header-actions">
+        <button class="btn-edit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
+            <path d="m15 5 4 4"/>
+          </svg>
+          Edit
+        </button>
+        <button class="btn-close" (click)="close.emit()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="status-row">
+      <span class="status-badge" [class.status-active]="intent().status === 'Active'" [class.status-inactive]="intent().status !== 'Active'">
+        <span class="status-dot"></span>{{ intent().status }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="panel-body">
+
+    <!-- Description -->
+    @if (intent().description) {
+      <div class="section">
+        <p class="section-label">DESCRIPTION</p>
+        <p class="description-text">{{ intent().description }}</p>
+      </div>
+    }
+
+    <!-- Classification -->
+    <div class="section">
+      <p class="section-label">CLASSIFICATION</p>
+      <div class="classification-grid">
+        <div class="classif-cell">
+          <p class="classif-sub-label">Strategy</p>
+          <span class="badge" [ngClass]="getStrategyClass(intent().strategy)">{{ intent().strategy }}</span>
+        </div>
+        <div class="classif-cell">
+          <p class="classif-sub-label">Risk Level</p>
+          <span class="badge" [ngClass]="getRiskClass(intent().risk)">{{ intent().risk }}</span>
+        </div>
+        <div class="classif-cell">
+          <p class="classif-sub-label">Authentication</p>
+          <span class="badge" [ngClass]="getAuthClass(intent().authentication)">{{ intent().authentication }}</span>
+        </div>
+        <div class="classif-cell">
+          <p class="classif-sub-label">Release Phase</p>
+          <span class="phase-text">{{ intent().releasePhase ?? '—' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Capabilities -->
+    @if (intent().apiCapabilities?.length) {
+      <div class="section">
+        <p class="section-label">API CAPABILITIES</p>
+        <div class="tags-row">
+          @for (cap of intent().apiCapabilities!; track cap) {
+            <span class="tag-api">{{ cap }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Training Examples -->
+    <div class="section section-no-pad">
+      <div class="collapsible-header" (click)="examplesOpen.set(!examplesOpen())">
+        <span class="collapsible-title">
+          Training Examples
+          <span class="collapsible-count">({{ intent().trainingExamples?.length ?? 0 }})</span>
+        </span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chevron" [class.chevron-down]="!examplesOpen()">
+          <path d="m18 15-6-6-6 6"/>
+        </svg>
+      </div>
+      @if (examplesOpen()) {
+        <div class="collapsible-body">
+          @for (ex of intent().trainingExamples ?? []; track ex) {
+            <div class="example-row">
+              <span class="example-text">"{{ ex }}"</span>
+              <button class="btn-del-example" (click)="deleteExample.emit(ex)" title="Remove">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18"/>
+                  <path d="m6 6 12 12"/>
+                </svg>
+              </button>
+            </div>
+          }
+
+          @if (addingExample()) {
+            <div class="add-example-input-row">
+              <input
+                class="add-example-input"
+                placeholder="Type an example..."
+                [(ngModel)]="newExampleText"
+                (keyup.enter)="submitExample()"
+                (keyup.escape)="cancelAddExample()"
+              />
+              <button class="btn-confirm-example" (click)="submitExample()">Add</button>
+              <button class="btn-cancel-example" (click)="cancelAddExample()">Cancel</button>
+            </div>
+          } @else {
+            <button class="btn-add-example" (click)="addingExample.set(true)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5v14"/>
+              </svg>
+              Add example
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Resolution Pipeline -->
+    <div class="section">
+      <p class="section-label">RESOLUTION PIPELINE</p>
+      <div class="pipeline-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pipeline-icon">
+          <path d="M12 8V4H8"/>
+          <rect width="16" height="12" x="4" y="8" rx="2"/>
+          <path d="M2 14h2"/>
+          <path d="M20 14h2"/>
+          <path d="M15 13v2"/>
+          <path d="M9 13v2"/>
+        </svg>
+        <div>
+          <p class="pipeline-title">LLM Planned - Dynamic Runtime Resolution</p>
+          <p class="pipeline-sub">No static pipeline. Resolved dynamically by LLM Planner at runtime.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supported Channels -->
+    @if (intent().channels?.length) {
+      <div class="section">
+        <p class="section-label">SUPPORTED CHANNELS</p>
+        <div class="channels-row">
+          @for (ch of intent().channels!; track ch.name) {
+            @if (ch.active) {
+              <span class="channel-badge channel-active">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+                {{ ch.name }}
+              </span>
+            } @else {
+              <span class="channel-badge channel-future">{{ ch.name }}<span class="future-label"> - future</span></span>
+            }
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+</div>
