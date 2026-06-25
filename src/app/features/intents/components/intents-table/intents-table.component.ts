@@ -2,11 +2,12 @@ import { Component, input, output, signal, HostListener, ChangeDetectionStrategy
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Intent, Strategy, RiskLevel, AuthType } from '../../../../core/models/intent.model';
+import { BadgeComponent, StatusBadgeComponent, SpinnerComponent } from '../../../../shared/components/ui';
 
 @Component({
   selector: 'app-intents-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BadgeComponent, StatusBadgeComponent, SpinnerComponent],
   templateUrl: './intents-table.component.html',
   styleUrl: './intents-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

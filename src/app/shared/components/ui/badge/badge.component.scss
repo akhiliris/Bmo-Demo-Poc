@@ -1,0 +1,25 @@
+:host { display: inline; }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: 'Heebo', sans-serif;
+  white-space: nowrap;
+  line-height: 1.4;
+
+  &-api      { background: rgb(239, 246, 255); color: rgb(29, 78, 216); }
+  &-rag      { background: rgb(236, 253, 245); color: rgb(6, 95, 70); }
+  &-hybrid   { background: rgb(245, 243, 255); color: rgb(109, 40, 217); }
+  &-escalate { background: rgb(255, 247, 237); color: rgb(194, 65, 12); }
+
+  &-risk-low    { background: rgb(236, 253, 243); color: rgb(2, 122, 72); }
+  &-risk-medium { background: rgb(254, 243, 199); color: rgb(180, 83, 9); }
+  &-risk-high   { background: rgb(254, 226, 226); color: rgb(185, 28, 28); }
+
+  &-auth-none          { background: #f3f4f6;            color: #6b7280; }
+  &-auth-authenticated { background: rgb(239, 246, 255); color: rgb(29, 78, 216); }
+  &-auth-step-up       { background: rgb(254, 226, 226); color: rgb(185, 28, 28); }
+}

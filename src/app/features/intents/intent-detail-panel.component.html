@@ -7,13 +7,13 @@
         <code class="panel-code">{{ intent().code }}</code>
       </div>
       <div class="header-actions">
-        <button class="btn-edit">
+        <ui-button variant="outline" size="sm" (click)="edit.emit()">
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>
             <path d="m15 5 4 4"/>
           </svg>
           Edit
-        </button>
+        </ui-button>
         <button class="btn-close" (click)="close.emit()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 6 6 18"/>
@@ -23,9 +23,7 @@
       </div>
     </div>
     <div class="status-row">
-      <span class="status-badge" [class.status-active]="intent().status === 'Active'" [class.status-inactive]="intent().status !== 'Active'">
-        <span class="status-dot"></span>{{ intent().status }}
-      </span>
+      <ui-status-badge [status]="intent().status" />
     </div>
   </div>
 
@@ -46,15 +44,15 @@
       <div class="classification-grid">
         <div class="classif-cell">
           <p class="classif-sub-label">Strategy</p>
-          <span class="badge" [ngClass]="getStrategyClass(intent().strategy)">{{ intent().strategy }}</span>
+          <ui-badge type="strategy" [value]="intent().strategy" />
         </div>
         <div class="classif-cell">
           <p class="classif-sub-label">Risk Level</p>
-          <span class="badge" [ngClass]="getRiskClass(intent().risk)">{{ intent().risk }}</span>
+          <ui-badge type="risk" [value]="intent().risk" />
         </div>
         <div class="classif-cell">
           <p class="classif-sub-label">Authentication</p>
-          <span class="badge" [ngClass]="getAuthClass(intent().authentication)">{{ intent().authentication }}</span>
+          <ui-badge type="auth" [value]="intent().authentication" />
         </div>
         <div class="classif-cell">
           <p class="classif-sub-label">Release Phase</p>

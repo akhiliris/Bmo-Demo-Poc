@@ -1,0 +1,22 @@
+:host { display: inline; }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Heebo', sans-serif;
+  line-height: 1.4;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.status-active   { color: rgb(22, 163, 74); }
+.status-inactive { color: rgb(156, 163, 175); }

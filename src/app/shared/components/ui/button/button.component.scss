@@ -1,0 +1,64 @@
+$primary: rgb(0, 121, 193);
+
+:host { display: contents; }
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s, opacity 0.12s;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  line-height: 1.4;
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  // ── Variants ──────────────────────────────────────────────────
+  &--primary {
+    background: $primary;
+    color: #ffffff;
+    border: none;
+    &:hover:not(:disabled) { opacity: 0.88; }
+  }
+
+  &--outline {
+    background: #ffffff;
+    color: #6b7280;
+    border: 1px solid #e5e7eb;
+    &:hover:not(:disabled) { background: #f9fafb; border-color: #d1d5db; }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: #6b7280;
+    border: none;
+    &:hover:not(:disabled) { background: #f3f4f6; color: #111827; }
+  }
+
+  &--danger {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    &:hover:not(:disabled) { background: #fecaca; }
+  }
+
+  // ── Sizes ─────────────────────────────────────────────────────
+  &--sm { padding: 6px 12px; font-size: 12.5px; }
+  &--md { padding: 8px 20px; font-size: 13.5px; }
+  &--lg { padding: 9px 28px; font-size: 13.5px; font-weight: 600; }
+}
+
+.ui-btn__spinner {
+  flex-shrink: 0;
+  animation: ui-btn-spin 0.9s linear infinite;
+}
+
+@keyframes ui-btn-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

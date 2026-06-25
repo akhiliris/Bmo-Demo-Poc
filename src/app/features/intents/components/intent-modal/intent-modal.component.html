@@ -37,29 +37,28 @@
 
         <div class="form-field">
           <label class="form-label">Intent Name</label>
-          <input class="form-input" [(ngModel)]="formData.name" placeholder="e.g. Account Balance Enquiry" />
+          <ui-input [(ngModel)]="formData.name" placeholder="e.g. Account Balance Enquiry" />
         </div>
 
         <div class="form-row">
           <div class="form-field">
             <label class="form-label">Intent Code</label>
-            <input class="form-input"
+            <ui-input
               [(ngModel)]="formData.code"
               [readonly]="mode() === 'edit'"
-              [class.readonly]="mode() === 'edit'"
               placeholder="e.g. ACCOUNT_BALANCE" />
           </div>
           <div class="form-field">
             <label class="form-label">Domain</label>
             @if (mode() === 'edit') {
-              <input class="form-input readonly" [value]="formData.domain" readonly />
+              <ui-input [ngModel]="formData.domain" [readonly]="true" />
             } @else {
-              <select class="form-select" [(ngModel)]="formData.domain" (ngModelChange)="onDomainChange()">
+              <ui-select [(ngModel)]="formData.domain" (ngModelChange)="onDomainChange()">
                 <option value="">Select domain…</option>
                 @for (d of intentService.domainOptions(); track d) {
                   <option [value]="d">{{ d }}</option>
                 }
-              </select>
+              </ui-select>
             }
           </div>
         </div>
@@ -68,33 +67,33 @@
           <div class="form-field">
             <label class="form-label">Category</label>
             @if (mode() === 'edit') {
-              <input class="form-input readonly" [value]="formData.category" readonly />
+              <ui-input [ngModel]="formData.category" [readonly]="true" />
             } @else {
-              <select class="form-select" [(ngModel)]="formData.category" [disabled]="!formData.domain">
+              <ui-select [(ngModel)]="formData.category" [disabled]="!formData.domain">
                 <option value="">Select category…</option>
                 @for (c of categoryOptions(); track c) {
                   <option [value]="c">{{ c }}</option>
                 }
-              </select>
+              </ui-select>
             }
           </div>
           <div class="form-field">
             <label class="form-label">Release Phase</label>
-            <input class="form-input" [(ngModel)]="formData.releasePhase" placeholder="e.g. GA" />
+            <ui-input [(ngModel)]="formData.releasePhase" placeholder="e.g. GA" />
           </div>
         </div>
 
         <div class="form-field">
           <label class="form-label">Description</label>
-          <textarea class="form-textarea" [(ngModel)]="formData.description" rows="4" placeholder="Describe what this intent handles…"></textarea>
+          <ui-textarea [(ngModel)]="formData.description" [rows]="4" placeholder="Describe what this intent handles…" />
         </div>
 
         <div class="form-field form-field-half">
           <label class="form-label">Status</label>
-          <select class="form-select" [(ngModel)]="formData.status">
+          <ui-select [(ngModel)]="formData.status">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
-          </select>
+          </ui-select>
         </div>
 
       </div>
@@ -106,37 +105,37 @@
         <div class="form-row">
           <div class="form-field">
             <label class="form-label">Strategy</label>
-            <select class="form-select" [(ngModel)]="formData.strategy">
+            <ui-select [(ngModel)]="formData.strategy">
               <option value="API">API</option>
               <option value="RAG">RAG</option>
               <option value="HYBRID">HYBRID</option>
               <option value="ESCALATE">ESCALATE</option>
-            </select>
+            </ui-select>
           </div>
           <div class="form-field">
             <label class="form-label">Risk Level</label>
-            <select class="form-select" [(ngModel)]="formData.risk">
+            <ui-select [(ngModel)]="formData.risk">
               <option value="LOW">LOW</option>
               <option value="MEDIUM">MEDIUM</option>
               <option value="HIGH">HIGH</option>
-            </select>
+            </ui-select>
           </div>
         </div>
 
         <!-- Row 2: Authentication (half width, left only) -->
         <div class="form-field form-field-half">
           <label class="form-label">Authentication</label>
-          <select class="form-select" [(ngModel)]="formData.authentication">
+          <ui-select [(ngModel)]="formData.authentication">
             <option value="NONE">NONE</option>
             <option value="AUTHENTICATED">AUTHENTICATED</option>
             <option value="STEP_UP">STEP UP</option>
-          </select>
+          </ui-select>
         </div>
 
         <!-- Row 3: Escalation Rules (full width) -->
         <div class="form-field">
           <label class="form-label">Escalation Rules</label>
-          <input class="form-input" [(ngModel)]="formData.escalationRules"
+          <ui-input [(ngModel)]="formData.escalationRules"
             placeholder="e.g. escalate_to_agent after 2 retries" />
         </div>
 
@@ -183,7 +182,7 @@
         <!-- Inline add input (shown when + Add example is clicked) -->
         @if (showAddExample()) {
           <div class="training-add-row">
-            <input class="form-input" [(ngModel)]="newExampleText"
+            <ui-input [(ngModel)]="newExampleText"
               placeholder="Type an example phrase…"
               (keyup.enter)="addExample()"
               (keyup.escape)="showAddExample.set(false)" />
@@ -219,9 +218,7 @@
                 </button>
               </span>
             }
-            <input class="tag-input" [(ngModel)]="newTagText"
-              placeholder="Add capability tag…"
-              (keyup.enter)="addTag()" />
+            <input class="tag-input" [(ngModel)]="newTagText" placeholder="Add capability tag…" (keyup.enter)="addTag()" />
           </div>
           <span class="field-hint">Press Enter to add a tag</span>
         </div>
@@ -229,15 +226,13 @@
         <!-- Backend Services -->
         <div class="form-field">
           <label class="form-label">Backend Services</label>
-          <input class="form-input" [(ngModel)]="formData.backendServices"
-            placeholder="e.g. account-service, profile-service" />
+          <ui-input [(ngModel)]="formData.backendServices" placeholder="e.g. account-service, profile-service" />
         </div>
 
         <!-- Feature Flags -->
         <div class="form-field">
           <label class="form-label">Feature Flags</label>
-          <input class="form-input" [(ngModel)]="formData.featureFlags"
-            placeholder="e.g. FEATURE_BALANCE_V2" />
+          <ui-input [(ngModel)]="formData.featureFlags" placeholder="e.g. FEATURE_BALANCE_V2" />
         </div>
 
       </div>
@@ -270,14 +265,14 @@
 
     <!-- Footer -->
     <div class="modal-footer">
-      <button type="button" class="btn-cancel" (click)="onClose()">Cancel</button>
+      <ui-button type="button" variant="outline" (click)="onClose()">Cancel</ui-button>
       <div class="footer-right">
         @if (activeTab() !== 'basic') {
-          <button type="button" class="btn-back" (click)="goBack()">Back</button>
+          <ui-button type="button" variant="outline" (click)="goBack()">Back</ui-button>
         }
-        <button type="button" class="btn-next" (click)="goNext()" [disabled]="loading()">
+        <ui-button type="button" variant="primary" size="lg" (click)="goNext()" [disabled]="loading()" [loading]="loading()">
           {{ isLastTab() ? (mode() === 'edit' ? 'Save Changes' : 'Save Intent') : 'Next' }}
-        </button>
+        </ui-button>
       </div>
     </div>
 

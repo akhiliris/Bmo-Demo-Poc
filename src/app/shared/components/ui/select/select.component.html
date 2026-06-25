@@ -1,0 +1,9 @@
+<select
+  [class]="'ui-select ui-select--' + size()"
+  [ngModel]="innerValue"
+  (ngModelChange)="handleChange($event)"
+  [disabled]="isDisabled"
+  (blur)="onTouched()"
+>
+  <ng-content />
+</select>

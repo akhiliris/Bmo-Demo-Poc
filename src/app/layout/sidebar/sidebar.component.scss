@@ -13,13 +13,10 @@
   overflow: hidden;
   font-family: 'Heebo', sans-serif;
   transition: width 250ms ease-in-out;
-  /* Own compositor layer — prevents repaint during browser-tab switches */
-  will-change: width;
-  transform: translateZ(0);
 }
 
 .sidebar.collapsed {
-  width: 56px;
+  width: 72px;
 }
 
 // ---- Brand ----
@@ -28,7 +25,7 @@
   align-items: center;
   gap: 10px;
   height: 64px;
-  padding: 0 12px;
+  padding: 0 16px;
   border-bottom: 1px solid rgb(228, 232, 238);
   flex-shrink: 0;
   overflow: hidden;

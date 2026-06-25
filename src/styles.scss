@@ -3,7 +3,14 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  height: 100%;
+  /* App shell uses overflow:hidden — no page-level scroll, so no gutter needed here.
+     scrollbar-gutter is applied locally on .table-wrapper instead. */
+  overflow: hidden;
+}
+
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -13,20 +20,34 @@ html, body {
   background-color: #f7f8fa;
 }
 
-/* Scrollbar styling */
+/* Freeze all transitions for 2 rAF frames after a hidden tab becomes visible.
+   AppComponent adds/removes this class via the visibilitychange event.       */
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+}
+
+/* Scrollbar styling — thin overlay-style to match Figma */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: rgba(0, 0, 0, 0.32);
+}
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
 }
 
 /* Tailwind-like utility resets */

@@ -2,17 +2,19 @@ import { Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Intent } from '../../core/models/intent.model';
+import { BadgeComponent, StatusBadgeComponent, ButtonComponent } from '../../shared/components/ui';
 
 @Component({
   selector: 'app-intent-detail-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BadgeComponent, StatusBadgeComponent, ButtonComponent],
   templateUrl: './intent-detail-panel.component.html',
   styleUrl: './intent-detail-panel.component.scss',
 })
 export class IntentDetailPanelComponent {
   readonly intent = input.required<Intent>();
   readonly close = output<void>();
+  readonly edit = output<void>();
   readonly deleteExample = output<string>();
   readonly addExample = output<string>();
 

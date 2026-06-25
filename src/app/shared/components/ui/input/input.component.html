@@ -1,0 +1,11 @@
+<input
+  [class]="'ui-input ui-input--' + size()"
+  [type]="type()"
+  [placeholder]="placeholder()"
+  [readonly]="readonly()"
+  [disabled]="isDisabled"
+  [value]="innerValue"
+  [class.ui-input--readonly]="readonly()"
+  (input)="handleInput($event)"
+  (blur)="onTouched()"
+/>

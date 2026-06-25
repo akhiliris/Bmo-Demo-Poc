@@ -1,0 +1,10 @@
+<textarea
+  class="ui-textarea"
+  [placeholder]="placeholder()"
+  [rows]="rows()"
+  [readonly]="readonly()"
+  [disabled]="isDisabled"
+  [value]="innerValue"
+  (input)="handleInput($event)"
+  (blur)="onTouched()"
+></textarea>

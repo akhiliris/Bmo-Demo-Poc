@@ -8,6 +8,7 @@ import { IntentsToolbarComponent } from './components/intents-toolbar/intents-to
 import { IntentsTableComponent } from './components/intents-table/intents-table.component';
 import { IntentModalComponent } from './components/intent-modal/intent-modal.component';
 import { FilterState, EMPTY_FILTERS, IntentFormData } from './intents.types';
+import { ButtonComponent } from '../../shared/components/ui';
 
 @Component({
   selector: 'app-intents',
@@ -19,6 +20,7 @@ import { FilterState, EMPTY_FILTERS, IntentFormData } from './intents.types';
     IntentsToolbarComponent,
     IntentsTableComponent,
     IntentModalComponent,
+    ButtonComponent,
   ],
   templateUrl: './intents.component.html',
   styleUrl: './intents.component.scss',

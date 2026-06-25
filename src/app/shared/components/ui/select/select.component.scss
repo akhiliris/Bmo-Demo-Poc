@@ -1,0 +1,33 @@
+$primary: rgb(0, 121, 193);
+$primary-focus: rgba(0, 121, 193, 0.15);
+
+:host { display: block; }
+
+.ui-select {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Heebo', sans-serif;
+  font-weight: 400;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px $primary-focus;
+  }
+
+  &--sm { font-size: 12.5px; padding: 7px 10px; }
+  &--md { font-size: 13.5px; padding: 8px 12px; }
+
+  &:disabled {
+    background: #f9fafb;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
+}

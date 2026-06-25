@@ -5,6 +5,7 @@
 
 .table-state {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 8px;
   padding: 14px 20px;
@@ -23,12 +24,17 @@
 
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-.table-wrapper { overflow-x: auto; }
+.table-wrapper {
+  overflow-x: auto;
+}
 
 .data-table {
   width: 100%;
-  min-width: 1100px;
+  min-width: 900px;
   border-collapse: collapse;
+  // Fixed layout: browser uses TH widths as-declared rather than content-based sizing.
+  // This ensures the Actions column always gets its reserved space.
+  table-layout: fixed;
 }
 
 .thead-row {
@@ -37,21 +43,34 @@
 }
 
 .th {
-  padding: 10px 16px;
+  padding: 12px 16px;
   text-align: left;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   white-space: nowrap;
   font-family: 'Heebo', sans-serif;
+  overflow: hidden;
 }
 
-.th-actions { text-align: right; }
+// Column width distribution (must sum to 100% so table-layout: fixed can apply them)
+.th-name         { width: 17%; }
+.th-code         { width: 15%; }
+.th-domain       { width: 12%; }
+.th-category     { width: 12%; }
+.th-strategy     { width: 7%; }
+.th-risk         { width: 7%; }
+.th-auth         { width: 13%; }
+.th-status       { width: 9%; }
+.th-actions {
+  width: 8%;
+  text-align: right;
+  min-width: 100px;
+}
 
 .tbody-row {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #f9fafb;
   cursor: pointer;
   transition: background-color 0.1s;
 
@@ -60,40 +79,44 @@
 }
 
 .td {
-  padding: 11px 16px;
+  padding: 12px 16px;
   vertical-align: middle;
 }
 
-.td-sm { font-size: 13px; color: #4b5563; white-space: nowrap; font-family: 'Heebo', sans-serif; }
+.td-sm { font-size: 12px; color: #4b5563; white-space: nowrap; font-family: 'Heebo', sans-serif; }
 .td-muted { color: #6b7280; }
 
 .intent-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  color: #111827;
+  color: #1f2937;
   font-family: 'Heebo', sans-serif;
   display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 190px;
+  // No max-width — the TH width (17%) controls column width in fixed-layout mode
 }
 
 .intent-code {
-  font-size: 11.5px;
+  font-size: 11px;
   color: #6b7280;
   font-family: 'ui-monospace', 'SFMono-Regular', 'Courier New', monospace;
-  background: #f3f4f6;
-  padding: 2px 7px;
+  background: #f9fafb;
+  padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
-  margin-top: 2px;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
 }
 
 // Badges
 .badge {
   display: inline-block;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 600;
   padding: 2px 10px;
   border-radius: 20px;
@@ -119,7 +142,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
 }
@@ -128,6 +151,11 @@
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
 // Actions
+.td-actions {
+  width: 120px;
+  min-width: 120px;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -200,7 +228,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  padding: 12px 16px;
   border-top: 1px solid #f3f4f6;
   background: rgb(250, 251, 252);
 }
@@ -220,8 +248,8 @@
 .rows-select {
   font-size: 12px;
   font-family: 'Heebo', sans-serif;
-  border: 1px solid #e4e8ee;
-  border-radius: 5px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
   padding: 4px 8px;
   color: #4b5563;
   outline: none;

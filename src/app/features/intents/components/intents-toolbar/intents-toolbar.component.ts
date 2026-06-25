@@ -2,11 +2,12 @@ import { Component, input, output, signal, ChangeDetectionStrategy } from '@angu
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilterState, EMPTY_FILTERS } from '../../intents.types';
+import { ButtonComponent, SearchInputComponent, SelectComponent } from '../../../../shared/components/ui';
 
 @Component({
   selector: 'app-intents-toolbar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ButtonComponent, SearchInputComponent, SelectComponent],
   templateUrl: './intents-toolbar.component.html',
   styleUrl: './intents-toolbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

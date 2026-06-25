@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Intent } from '../../../../core/models/intent.model';
 import { IntentService } from '../../../../core/services/intent.service';
 import { IntentFormData, EMPTY_FORM_DATA } from '../../intents.types';
+import { ButtonComponent, InputComponent, SelectComponent, TextareaComponent } from '../../../../shared/components/ui';
 
 export type ModalMode = 'new' | 'edit';
 export type ModalTab = 'basic' | 'classification' | 'training' | 'capabilities' | 'channels';
@@ -13,7 +14,7 @@ const TAB_ORDER: ModalTab[] = ['basic', 'classification', 'training', 'capabilit
 @Component({
   selector: 'app-intent-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ButtonComponent, InputComponent, SelectComponent, TextareaComponent],
   templateUrl: './intent-modal.component.html',
   styleUrl: './intent-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
