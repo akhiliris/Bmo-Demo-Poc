@@ -27,7 +27,7 @@
 
 .data-table {
   width: 100%;
-  min-width: 900px;
+  min-width: 1100px;
   border-collapse: collapse;
 }
 
@@ -65,13 +65,18 @@
 }
 
 .td-sm { font-size: 13px; color: #4b5563; white-space: nowrap; font-family: 'Heebo', sans-serif; }
-.td-muted { color: #9ca3af; }
+.td-muted { color: #6b7280; }
 
 .intent-name {
   font-size: 14px;
   font-weight: 500;
   color: #111827;
   font-family: 'Heebo', sans-serif;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 190px;
 }
 
 .intent-code {

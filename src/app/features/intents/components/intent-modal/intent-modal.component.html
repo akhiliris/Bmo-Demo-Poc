@@ -32,16 +32,14 @@
         </div>
       }
 
-      <!-- ===== BASIC INFO — always in DOM, shown/hidden via [hidden] ===== -->
-      <div class="tab-content" [hidden]="activeTab() !== 'basic'">
+      <!-- ===== BASIC INFO ===== -->
+      <div class="tab-content" [class.tab-active]="activeTab() === 'basic'">
 
-        <!-- Intent Name (full width) -->
         <div class="form-field">
           <label class="form-label">Intent Name</label>
           <input class="form-input" [(ngModel)]="formData.name" placeholder="e.g. Account Balance Enquiry" />
         </div>
 
-        <!-- Intent Code | Domain -->
         <div class="form-row">
           <div class="form-field">
             <label class="form-label">Intent Code</label>
@@ -66,7 +64,6 @@
           </div>
         </div>
 
-        <!-- Category | Release Phase -->
         <div class="form-row">
           <div class="form-field">
             <label class="form-label">Category</label>
@@ -87,13 +84,11 @@
           </div>
         </div>
 
-        <!-- Description (full width) -->
         <div class="form-field">
           <label class="form-label">Description</label>
           <textarea class="form-textarea" [(ngModel)]="formData.description" rows="4" placeholder="Describe what this intent handles…"></textarea>
         </div>
 
-        <!-- Status (half width) -->
         <div class="form-field form-field-half">
           <label class="form-label">Status</label>
           <select class="form-select" [(ngModel)]="formData.status">
@@ -105,63 +100,73 @@
       </div>
 
       <!-- ===== CLASSIFICATION ===== -->
-      <div class="tab-content" [hidden]="activeTab() !== 'classification'">
+      <div class="tab-content" [class.tab-active]="activeTab() === 'classification'">
 
-        <div class="form-field">
-          <label class="form-label">Strategy</label>
-          <div class="chip-group">
-            @for (opt of ['API','RAG','HYBRID','ESCALATE']; track opt) {
-              <button type="button" class="chip" [class.chip-active]="formData.strategy === opt" (click)="formData.strategy = $any(opt)">{{ opt }}</button>
-            }
+        <!-- Row 1: Strategy + Risk Level -->
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">Strategy</label>
+            <select class="form-select" [(ngModel)]="formData.strategy">
+              <option value="API">API</option>
+              <option value="RAG">RAG</option>
+              <option value="HYBRID">HYBRID</option>
+              <option value="ESCALATE">ESCALATE</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Risk Level</label>
+            <select class="form-select" [(ngModel)]="formData.risk">
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-field">
-          <label class="form-label">Risk Level</label>
-          <div class="chip-group">
-            <button type="button" class="chip chip-green" [class.chip-active]="formData.risk === 'LOW'" (click)="formData.risk = 'LOW'">LOW</button>
-            <button type="button" class="chip chip-yellow" [class.chip-active]="formData.risk === 'MEDIUM'" (click)="formData.risk = 'MEDIUM'">MEDIUM</button>
-            <button type="button" class="chip chip-red" [class.chip-active]="formData.risk === 'HIGH'" (click)="formData.risk = 'HIGH'">HIGH</button>
-          </div>
-        </div>
-
-        <div class="form-field">
+        <!-- Row 2: Authentication (half width, left only) -->
+        <div class="form-field form-field-half">
           <label class="form-label">Authentication</label>
-          <div class="chip-group">
-            <button type="button" class="chip" [class.chip-active]="formData.authentication === 'NONE'" (click)="formData.authentication = 'NONE'">NONE</button>
-            <button type="button" class="chip" [class.chip-active]="formData.authentication === 'AUTHENTICATED'" (click)="formData.authentication = 'AUTHENTICATED'">AUTHENTICATED</button>
-            <button type="button" class="chip" [class.chip-active]="formData.authentication === 'STEP_UP'" (click)="formData.authentication = 'STEP_UP'">STEP UP</button>
-          </div>
+          <select class="form-select" [(ngModel)]="formData.authentication">
+            <option value="NONE">NONE</option>
+            <option value="AUTHENTICATED">AUTHENTICATED</option>
+            <option value="STEP_UP">STEP UP</option>
+          </select>
         </div>
 
-        <!-- Summary card -->
-        <div class="config-summary">
-          <div class="summary-item">
-            <span class="summary-label">Strategy</span>
-            <span class="badge badge-{{ formData.strategy.toLowerCase() }}">{{ formData.strategy }}</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Risk</span>
-            <span class="badge badge-risk-{{ formData.risk.toLowerCase() }}">{{ formData.risk }}</span>
-          </div>
-          <div class="summary-item">
-            <span class="summary-label">Auth</span>
-            <span class="badge badge-auth-{{ formData.authentication.toLowerCase() }}">{{ formData.authentication }}</span>
-          </div>
+        <!-- Row 3: Escalation Rules (full width) -->
+        <div class="form-field">
+          <label class="form-label">Escalation Rules</label>
+          <input class="form-input" [(ngModel)]="formData.escalationRules"
+            placeholder="e.g. escalate_to_agent after 2 retries" />
         </div>
 
       </div>
 
       <!-- ===== TRAINING ===== -->
-      <div class="tab-content" [hidden]="activeTab() !== 'training'">
-        <div class="form-field">
-          <label class="form-label">Training Examples</label>
-          <div class="training-add-row">
-            <input class="form-input" [(ngModel)]="newExampleText" placeholder="Type an example phrase and press Add…" (keyup.enter)="addExample()" />
-            <button type="button" class="btn-add" (click)="addExample()" [disabled]="!newExampleText.trim()">Add</button>
+      <div class="tab-content" [class.tab-active]="activeTab() === 'training'">
+
+        <!-- Header: title + action buttons -->
+        <div class="training-header">
+          <span class="training-title">Training Examples ({{ formData.trainingExamples.length }})</span>
+          <div class="training-header-actions">
+            <button type="button" class="btn-training-action">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" x2="12" y1="3" y2="15"/>
+              </svg>
+              Bulk Upload
+            </button>
+            <button type="button" class="btn-training-ai">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+              </svg>
+              AI Generate
+            </button>
           </div>
         </div>
 
+        <!-- Examples list -->
         <div class="examples-list">
           @for (ex of formData.trainingExamples; track ex) {
             <div class="example-item">
@@ -173,52 +178,92 @@
               </button>
             </div>
           }
-          @empty {
-            <p class="empty-hint">No training examples added yet.</p>
-          }
         </div>
+
+        <!-- Inline add input (shown when + Add example is clicked) -->
+        @if (showAddExample()) {
+          <div class="training-add-row">
+            <input class="form-input" [(ngModel)]="newExampleText"
+              placeholder="Type an example phrase…"
+              (keyup.enter)="addExample()"
+              (keyup.escape)="showAddExample.set(false)" />
+            <button type="button" class="btn-add" (click)="addExample()" [disabled]="!newExampleText.trim()">Add</button>
+            <button type="button" class="btn-cancel-add" (click)="showAddExample.set(false)">Cancel</button>
+          </div>
+        }
+
+        <!-- + Add example link -->
+        <button type="button" class="btn-add-example-link" (click)="showAddExample.set(true)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M12 5v14"/><path d="M5 12h14"/>
+          </svg>
+          Add example
+        </button>
+
       </div>
 
       <!-- ===== CAPABILITIES ===== -->
-      <div class="tab-content" [hidden]="activeTab() !== 'capabilities'">
-        <p class="tab-hint">Define the API capabilities or endpoints this intent can invoke.</p>
-        <div class="empty-hint-block">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="m18 16 4-4-4-4"/>
-            <path d="m6 8-4 4 4 4"/>
-            <path d="m14.5 4-5 16"/>
-          </svg>
-          <p>No capabilities configured.</p>
-          <p>Add API endpoints or capability definitions for this intent.</p>
+      <div class="tab-content" [class.tab-active]="activeTab() === 'capabilities'">
+
+        <!-- API Capability Tags -->
+        <div class="form-field">
+          <label class="form-label">API Capability Tags</label>
+          <div class="tag-input-wrapper">
+            @for (tag of formData.capabilityTags; track tag) {
+              <span class="tag-chip">
+                {{ tag }}
+                <button type="button" class="tag-remove" (click)="removeTag(tag)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                  </svg>
+                </button>
+              </span>
+            }
+            <input class="tag-input" [(ngModel)]="newTagText"
+              placeholder="Add capability tag…"
+              (keyup.enter)="addTag()" />
+          </div>
+          <span class="field-hint">Press Enter to add a tag</span>
         </div>
+
+        <!-- Backend Services -->
+        <div class="form-field">
+          <label class="form-label">Backend Services</label>
+          <input class="form-input" [(ngModel)]="formData.backendServices"
+            placeholder="e.g. account-service, profile-service" />
+        </div>
+
+        <!-- Feature Flags -->
+        <div class="form-field">
+          <label class="form-label">Feature Flags</label>
+          <input class="form-input" [(ngModel)]="formData.featureFlags"
+            placeholder="e.g. FEATURE_BALANCE_V2" />
+        </div>
+
       </div>
 
       <!-- ===== CHANNELS ===== -->
-      <div class="tab-content" [hidden]="activeTab() !== 'channels'">
-        <p class="tab-hint">Select the channels where this intent should be active.</p>
+      <div class="tab-content" [class.tab-active]="activeTab() === 'channels'">
+
+        <span class="channels-section-label">SUPPORTED CHANNELS</span>
+
         <div class="channels-list">
           @for (ch of formData.channels; track ch.name) {
-            <div class="channel-row" [class.channel-row-active]="ch.active" (click)="ch.active = !ch.active">
-              <div class="channel-info">
-                <div class="channel-icon">
-                  @if (ch.name === 'WEB') {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-                  } @else if (ch.name === 'MOBILE') {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
-                  } @else if (ch.name === 'VOICE') {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-                  } @else {
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                  }
-                </div>
+            <label class="channel-row" [class.channel-row-checked]="ch.active">
+              <input type="checkbox" class="channel-checkbox" [(ngModel)]="ch.active" />
+              <div class="channel-text">
                 <span class="channel-name">{{ ch.name }}</span>
+                <span class="channel-desc">
+                  @if (ch.name === 'WEB') { Browser-based web application }
+                  @else if (ch.name === 'MOBILE') { iOS and Android mobile apps }
+                  @else if (ch.name === 'VOICE') { Voice channel - future support }
+                  @else { SMS text channel - future support }
+                </span>
               </div>
-              <div class="toggle" [class.toggle-on]="ch.active">
-                <div class="toggle-knob"></div>
-              </div>
-            </div>
+            </label>
           }
         </div>
+
       </div>
 
     </div>
@@ -226,9 +271,14 @@
     <!-- Footer -->
     <div class="modal-footer">
       <button type="button" class="btn-cancel" (click)="onClose()">Cancel</button>
-      <button type="button" class="btn-next" (click)="goNext()" [disabled]="loading()">
-        {{ isLastTab() ? (mode() === 'edit' ? 'Save' : 'Create') : 'Next' }}
-      </button>
+      <div class="footer-right">
+        @if (activeTab() !== 'basic') {
+          <button type="button" class="btn-back" (click)="goBack()">Back</button>
+        }
+        <button type="button" class="btn-next" (click)="goNext()" [disabled]="loading()">
+          {{ isLastTab() ? (mode() === 'edit' ? 'Save Changes' : 'Save Intent') : 'Next' }}
+        </button>
+      </div>
     </div>
 
   </div>

@@ -28,7 +28,9 @@ export class IntentModalComponent implements OnChanges {
   readonly close = output<void>();
 
   readonly activeTab = signal<ModalTab>('basic');
+  readonly showAddExample = signal(false);
   newExampleText = '';
+  newTagText = '';
   formData: IntentFormData = this._cloneEmpty();
 
   readonly mode = computed<ModalMode>(() => this.intent() ? 'edit' : 'new');
@@ -53,8 +55,14 @@ export class IntentModalComponent implements OnChanges {
         strategy: intent.strategy,
         risk: intent.risk,
         authentication: intent.authentication,
+        escalationRules: (intent as any).escalationRules ?? '',
         releasePhase: intent.releasePhase ?? '',
         trainingExamples: [...(intent.trainingExamples ?? [])],
+        trainingLanguage: (intent as any).trainingLanguage ?? 'EN',
+        minExamples: (intent as any).minExamples ?? 5,
+        capabilityTags: [...((intent as any).capabilityTags ?? [])],
+        backendServices: (intent as any).backendServices ?? '',
+        featureFlags: (intent as any).featureFlags ?? '',
         channels: intent.channels
           ? intent.channels.map(c => ({ ...c }))
           : EMPTY_FORM_DATA.channels.map(c => ({ ...c })),
@@ -64,6 +72,8 @@ export class IntentModalComponent implements OnChanges {
     }
     this.activeTab.set('basic');
     this.newExampleText = '';
+    this.newTagText = '';
+    this.showAddExample.set(false);
   }
 
   setTab(tab: ModalTab): void { this.activeTab.set(tab); }
@@ -77,16 +87,36 @@ export class IntentModalComponent implements OnChanges {
     }
   }
 
+  goBack(): void {
+    const idx = TAB_ORDER.indexOf(this.activeTab());
+    if (idx > 0) {
+      this.activeTab.set(TAB_ORDER[idx - 1]);
+    }
+  }
+
   addExample(): void {
     const text = this.newExampleText.trim();
     if (text && !this.formData.trainingExamples.includes(text)) {
       this.formData.trainingExamples = [...this.formData.trainingExamples, text];
     }
     this.newExampleText = '';
+    this.showAddExample.set(false);
   }
 
   removeExample(ex: string): void {
     this.formData.trainingExamples = this.formData.trainingExamples.filter(e => e !== ex);
+  }
+
+  addTag(): void {
+    const tag = this.newTagText.trim();
+    if (tag && !this.formData.capabilityTags.includes(tag)) {
+      this.formData.capabilityTags = [...this.formData.capabilityTags, tag];
+    }
+    this.newTagText = '';
+  }
+
+  removeTag(tag: string): void {
+    this.formData.capabilityTags = this.formData.capabilityTags.filter(t => t !== tag);
   }
 
   onDomainChange(): void { this.formData.category = ''; }

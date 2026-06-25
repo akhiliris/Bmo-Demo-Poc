@@ -113,6 +113,9 @@
 
   // Remove browser default search cancel button styling
   &::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+  @media (max-width: 900px) { width: 140px; }
+  @media (max-width: 640px) { display: none; }
 }
 
 // ---- User section (separated by left border) ----
@@ -146,6 +149,8 @@
   line-height: 1.2;
 
   p { margin: 0; }
+
+  @media (max-width: 768px) { display: none; }
 }
 
 .user-name {

@@ -22,8 +22,14 @@ export interface IntentFormData {
   strategy: Strategy;
   risk: RiskLevel;
   authentication: AuthType;
+  escalationRules: string;
   releasePhase: string;
   trainingExamples: string[];
+  trainingLanguage: string;
+  minExamples: number;
+  capabilityTags: string[];
+  backendServices: string;
+  featureFlags: string;
   channels: IntentChannel[];
 }
 
@@ -37,11 +43,17 @@ export const EMPTY_FORM_DATA: IntentFormData = {
   strategy: 'API',
   risk: 'LOW',
   authentication: 'NONE',
+  escalationRules: '',
   releasePhase: '',
   trainingExamples: [],
+  trainingLanguage: 'EN',
+  minExamples: 5,
+  capabilityTags: [],
+  backendServices: '',
+  featureFlags: '',
   channels: [
-    { name: 'WEB', active: true },
-    { name: 'MOBILE', active: true },
+    { name: 'WEB', active: false },
+    { name: 'MOBILE', active: false },
     { name: 'VOICE', active: false },
     { name: 'SMS', active: false },
   ],
