@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IntentService } from '../../core/services/intent.service';
 import { Intent } from '../../core/models/intent.model';
@@ -22,6 +22,7 @@ import { FilterState, EMPTY_FILTERS, IntentFormData } from './intents.types';
   ],
   templateUrl: './intents.component.html',
   styleUrl: './intents.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntentsComponent {
   readonly intentService = inject(IntentService);

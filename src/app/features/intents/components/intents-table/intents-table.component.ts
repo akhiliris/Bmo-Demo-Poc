@@ -1,4 +1,4 @@
-import { Component, input, output, signal, HostListener } from '@angular/core';
+import { Component, input, output, signal, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Intent, Strategy, RiskLevel, AuthType } from '../../../../core/models/intent.model';
@@ -9,6 +9,7 @@ import { Intent, Strategy, RiskLevel, AuthType } from '../../../../core/models/i
   imports: [CommonModule, FormsModule],
   templateUrl: './intents-table.component.html',
   styleUrl: './intents-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntentsTableComponent {
   readonly intents = input<Intent[]>([]);

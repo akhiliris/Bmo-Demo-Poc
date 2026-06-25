@@ -13,6 +13,9 @@
   overflow: hidden;
   font-family: 'Heebo', sans-serif;
   transition: width 250ms ease-in-out;
+  /* Own compositor layer — prevents repaint during browser-tab switches */
+  will-change: width;
+  transform: translateZ(0);
 }
 
 .sidebar.collapsed {

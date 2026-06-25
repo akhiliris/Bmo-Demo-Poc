@@ -1,3 +1,8 @@
+// Primary brand colour — single source of truth
+$primary: rgb(0, 121, 193);
+$primary-light: rgba(0, 121, 193, 0.08);
+$primary-focus: rgba(0, 121, 193, 0.15);
+
 :host {
   font-family: 'Heebo', sans-serif;
 }
@@ -17,13 +22,13 @@
 // ---- Panel ----
 .modal-panel {
   background: #ffffff;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 100%;
   max-width: 800px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
   overflow: hidden;
   font-family: 'Heebo', sans-serif;
 }
@@ -74,7 +79,7 @@
 
 .tab-btn {
   padding: 12px 16px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 400;
   font-family: 'Heebo', sans-serif;
   color: #6b7280;
@@ -89,9 +94,9 @@
   &:hover { color: #374151; }
 
   &.active {
-    color: #0C7B8A;
+    color: $primary;
     font-weight: 500;
-    border-bottom-color: #0C7B8A;
+    border-bottom-color: $primary;
   }
 }
 
@@ -119,7 +124,7 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 // ---- Form elements ----
@@ -132,7 +137,7 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   flex: 1;
   min-width: 0;
 }
@@ -142,10 +147,11 @@
 }
 
 .form-label {
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 12px;
+  font-weight: 500;
   font-family: 'Heebo', sans-serif;
   color: #374151;
+  letter-spacing: 0.01em;
 }
 
 .form-input,
@@ -153,10 +159,10 @@
 .form-textarea {
   width: 100%;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 13.5px;
   font-family: 'Heebo', sans-serif;
   font-weight: 400;
-  padding: 9px 12px;
+  padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   color: #111827;
@@ -165,11 +171,11 @@
   transition: border-color 0.15s, box-shadow 0.15s;
 
   &:focus {
-    border-color: #0C7B8A;
-    box-shadow: 0 0 0 3px rgba(12, 123, 138, 0.1);
+    border-color: $primary;
+    box-shadow: 0 0 0 3px $primary-focus;
   }
 
-  &::placeholder { color: #d1d5db; }
+  &::placeholder { color: #9ca3af; }
 }
 
 .form-input.readonly,
@@ -189,8 +195,8 @@
 
 .form-textarea {
   resize: vertical;
-  min-height: 100px;
-  line-height: 1.5;
+  min-height: 96px;
+  line-height: 1.55;
 }
 
 // ---- Chips (Classification tab) ----
@@ -202,7 +208,7 @@
 
 .chip {
   padding: 6px 16px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
   border: 1px solid #d1d5db;
@@ -212,12 +218,12 @@
   cursor: pointer;
   transition: all 0.15s;
 
-  &:hover { border-color: #0C7B8A; color: #0C7B8A; }
+  &:hover { border-color: $primary; color: $primary; background: $primary-light; }
 }
 
 .chip-active {
-  border-color: #0C7B8A !important;
-  background: #0C7B8A !important;
+  border-color: $primary !important;
+  background: $primary !important;
   color: #ffffff !important;
 }
 
@@ -227,7 +233,7 @@
 
 // ---- Config summary ----
 .config-summary {
-  background: #f9fafb;
+  background: #f8fafc;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 14px 16px;
@@ -280,11 +286,11 @@
 }
 
 .btn-add {
-  padding: 9px 20px;
+  padding: 8px 20px;
   font-size: 13px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
-  background: #0C7B8A;
+  background: $primary;
   color: #ffffff;
   border: none;
   border-radius: 6px;
@@ -293,7 +299,7 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover:not(:disabled) { opacity: 0.9; }
+  &:hover:not(:disabled) { opacity: 0.88; }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
@@ -393,8 +399,8 @@
 }
 
 .channel-row-active {
-  border-color: #0C7B8A !important;
-  background: #f0f9fa !important;
+  border-color: $primary !important;
+  background: rgba(0, 121, 193, 0.04) !important;
 }
 
 .channel-info {
@@ -416,12 +422,12 @@
 }
 
 .channel-row-active .channel-icon {
-  background: #d0eef1;
-  color: #0C7B8A;
+  background: rgba(0, 121, 193, 0.1);
+  color: $primary;
 }
 
 .channel-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
   color: #1f2937;
@@ -438,7 +444,7 @@
   transition: background-color 0.2s;
 }
 
-.toggle-on { background: #0C7B8A; }
+.toggle-on { background: $primary; }
 
 .toggle-knob {
   width: 16px;
@@ -461,37 +467,37 @@
   justify-content: space-between;
   padding: 16px 24px;
   border-top: 1px solid #e5e7eb;
-  background: #ffffff;
+  background: #f9fafb;
   flex-shrink: 0;
 }
 
 .btn-cancel {
-  font-size: 14px;
+  font-size: 13.5px;
   font-family: 'Heebo', sans-serif;
   font-weight: 400;
-  padding: 9px 24px;
+  padding: 8px 22px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
   background: #ffffff;
   color: #374151;
   cursor: pointer;
-  transition: background-color 0.12s;
+  transition: background-color 0.12s, border-color 0.12s;
 
-  &:hover { background: #f9fafb; }
+  &:hover { background: #f3f4f6; border-color: #9ca3af; }
 }
 
 .btn-next {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 600;
   font-family: 'Heebo', sans-serif;
-  padding: 9px 28px;
+  padding: 8px 28px;
   border-radius: 6px;
   border: none;
-  background: #0C7B8A;
+  background: $primary;
   color: #ffffff;
   cursor: pointer;
   transition: opacity 0.15s;
 
-  &:hover:not(:disabled) { opacity: 0.9; }
+  &:hover:not(:disabled) { opacity: 0.88; }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 }

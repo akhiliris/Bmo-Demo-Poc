@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, inject, OnChanges } from '@angular/core';
+import { Component, input, output, signal, computed, inject, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Intent } from '../../../../core/models/intent.model';
@@ -16,6 +16,7 @@ const TAB_ORDER: ModalTab[] = ['basic', 'classification', 'training', 'capabilit
   imports: [CommonModule, FormsModule],
   templateUrl: './intent-modal.component.html',
   styleUrl: './intent-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntentModalComponent implements OnChanges {
   readonly intentService = inject(IntentService);

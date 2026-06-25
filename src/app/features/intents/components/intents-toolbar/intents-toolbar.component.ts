@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilterState, EMPTY_FILTERS } from '../../intents.types';
@@ -9,6 +9,7 @@ import { FilterState, EMPTY_FILTERS } from '../../intents.types';
   imports: [CommonModule, FormsModule],
   templateUrl: './intents-toolbar.component.html',
   styleUrl: './intents-toolbar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntentsToolbarComponent {
   readonly searchQuery = input('');

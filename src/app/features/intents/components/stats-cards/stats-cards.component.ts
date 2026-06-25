@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IntentService } from '../../../../core/services/intent.service';
 
@@ -8,6 +8,7 @@ import { IntentService } from '../../../../core/services/intent.service';
   imports: [CommonModule],
   templateUrl: './stats-cards.component.html',
   styleUrl: './stats-cards.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntentsStatsComponent {
   readonly intentService = inject(IntentService);
