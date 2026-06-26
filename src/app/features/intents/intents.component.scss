@@ -11,12 +11,21 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-right: 0;
-  transition: padding-right 250ms ease-in-out;
+}
 
-  &.panel-open {
-    padding-right: 540px;
-  }
+// Dimmed backdrop shown behind the detail panel
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  top: 64px; // below header
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 49;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 // ---- Page Header — fixed, does not scroll ----
@@ -30,7 +39,9 @@
   flex-wrap: wrap;
   gap: 12px;
   flex-shrink: 0;
-
+  .header-left{
+    padding-top: 2.5px;
+  }
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;

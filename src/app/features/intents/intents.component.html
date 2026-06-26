@@ -1,4 +1,4 @@
-<main class="intents-main" [class.panel-open]="selectedIntent()">
+<main class="intents-main">
   <!-- Page Header -->
   <div class="page-header">
     <div class="header-left">
@@ -80,8 +80,9 @@
   </div><!-- end table-scroll-area -->
 </main>
 
-<!-- Intent Detail Panel -->
+<!-- Intent Detail Panel + backdrop -->
 @if (selectedIntent()) {
+  <div class="panel-backdrop" (click)="selectedIntent.set(null)"></div>
   <app-intent-detail-panel
     [intent]="selectedIntent()!"
     (close)="selectedIntent.set(null)"

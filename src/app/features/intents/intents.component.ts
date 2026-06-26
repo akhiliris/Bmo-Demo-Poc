@@ -133,6 +133,7 @@ export class IntentsComponent {
   onRowClick(intent: Intent): void { this.selectedIntent.set(intent); }
 
   onEditClick(intent: Intent): void {
+    this.selectedIntent.set(null); // close detail panel when edit opens
     this.editLoading.set(true);
     this.editModalIntent.set(intent);
 
