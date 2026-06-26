@@ -96,34 +96,36 @@
 
 .search-icon {
   position: absolute;
-  left: 12px;
-  color: rgba(255, 255, 255, 0.65);
+  left: 10px;
+  color: #ffffff;
   pointer-events: none;
 }
 
 .search-input {
-  width: 195px;
-  padding: 6px 12px 6px 32px;
+  width: 190px;
+  height: 32px;
+  padding: 0 10px 0 30px;
   font-size: 12px;
   font-family: 'Heebo', sans-serif;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 6px;
+  background:#FFFFFF26;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
   outline: none;
-  color: #ffffff;
+  color: #374151;
+  box-sizing: border-box;
 
-  &::placeholder { color: rgba(255, 255, 255, 0.65); }
+  &::placeholder { color: #fff; }
 
   &:focus {
-    background: rgba(255, 255, 255, 0.22);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: #FFFFFF26;
+    border-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
   }
 
-  // Remove browser default search cancel button styling
   &::-webkit-search-cancel-button { -webkit-appearance: none; }
 
-  @media (max-width: 900px) { width: 160px; }
-  @media (max-width: 640px) { display: none; }
+  @media (max-width: 900px)  { width: 155px; }
+  @media (max-width: 640px)  { display: none; }
 }
 
 // ---- User section (separated by left border) ----
@@ -136,11 +138,12 @@
 }
 
 .user-avatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
-  color: rgb(0, 121, 193);
+  background: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  color: #2563EB;
   font-size: 10px;
   font-weight: 700;
   font-family: 'Heebo', sans-serif;

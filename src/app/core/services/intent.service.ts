@@ -1,6 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, catchError, throwError } from 'rxjs';
 import { Intent, IntentChannel } from '../models/intent.model';
 
 const API_URL = 'https://9s7p5x51i0.execute-api.us-east-2.amazonaws.com/dev/apis/services/unified';
@@ -190,6 +190,50 @@ export class IntentService {
     );
   }
 
+  /** PUT /intents/{code} — saves an existing intent via API, then updates local signal on success */
+  saveIntentToApi(intent: Intent): Observable<Intent> {
+    return this.http.post<{ status: boolean; message: string; data?: ApiIntent }>(API_URL, {
+      resource: `/intents/${intent.code}`,
+      method: 'PUT',
+      data: this.mapIntentToApiData(intent),
+      query: {},
+    }).pipe(
+      map((res) => {
+        const saved = res.data ? mapApiIntent(res.data as ApiIntent) : intent;
+        this._intents.update(list => list.map(i => i.id === intent.id ? saved : i));
+        return saved;
+      }),
+      catchError((err) => {
+        const msg = err?.error?.message ?? err?.message ?? 'Failed to save intent';
+        return throwError(() => new Error(msg));
+      })
+    );
+  }
+
+  /** POST /intents — creates a new intent via API, then appends to local signal on success */
+  createIntentViaApi(intent: Intent): Observable<Intent> {
+    return this.http.post<{ status: boolean; message: string; data?: ApiIntent }>(API_URL, {
+      resource: '/intents',
+      method: 'POST',
+      data: {
+        intent_id: intent.code,
+        ...this.mapIntentToApiData(intent),
+      },
+      query: {},
+    }).pipe(
+      map((res) => {
+        const created = res.data ? mapApiIntent(res.data as ApiIntent) : intent;
+        this._intents.update(list => [...list, created]);
+        return created;
+      }),
+      catchError((err) => {
+        const msg = err?.error?.message ?? err?.message ?? 'Failed to create intent';
+        return throwError(() => new Error(msg));
+      })
+    );
+  }
+
+  /** Local-only signal update (used for toggle status, duplicate, detail edits) */
   updateIntent(updated: Intent): void {
     this._intents.update(list => list.map(i => i.id === updated.id ? updated : i));
   }
@@ -198,8 +242,31 @@ export class IntentService {
     this._intents.update(list => list.filter(i => i.id !== id));
   }
 
+  /** Local-only signal update (used for duplicate) */
   addIntent(intent: Intent): void {
     this._intents.update(list => [...list, intent]);
+  }
+
+  private mapIntentToApiData(intent: Intent): object {
+    return {
+      category_id: this.getCategoryId(intent.category),
+      name: intent.name,
+      description: intent.description ?? '',
+      examples: intent.trainingExamples ?? [],
+      resolution_strategy: intent.strategy,
+      risk_tier: intent.risk,
+      auth_level: intent.authentication,
+      rollout_phase: intent.releasePhase ?? '',
+      allowed_capability_tags: intent.apiCapabilities ?? [],
+      requires_step_up: intent.authentication === 'STEP_UP',
+      enabled: intent.status === 'Active',
+    };
+  }
+
+  private getCategoryId(categoryName: string): string {
+    const cats = this._categories();
+    const found = cats.find(c => extractCategory(c) === categoryName);
+    return found?.category_id ?? found?.categoryId ?? categoryName;
   }
 
   private _setDomainOptionsFromIntents(list: Intent[]): void {

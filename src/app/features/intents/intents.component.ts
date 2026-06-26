@@ -47,6 +47,10 @@ export class IntentsComponent {
 
   // ---- New Intent Modal ----
   readonly newModalOpen = signal(false);
+  readonly newModalLoading = signal(false);
+
+  // ---- Save error (shown when API call fails) ----
+  readonly saveError = signal<string | null>(null);
 
   // ---- Computed ----
   readonly activeFilterCount = computed(() => {
@@ -191,10 +195,20 @@ export class IntentsComponent {
       releasePhase: formData.releasePhase,
       trainingExamples: formData.trainingExamples,
       channels: formData.channels,
+      apiCapabilities: formData.capabilityTags,
     };
-    this.intentService.updateIntent(updated);
-    if (this.selectedIntent()?.id === intent.id) this.selectedIntent.set(updated);
-    this.closeEditModal();
+    this.editLoading.set(true);
+    this.saveError.set(null);
+    this.intentService.saveIntentToApi(updated).subscribe({
+      next: (saved) => {
+        if (this.selectedIntent()?.id === intent.id) this.selectedIntent.set(saved);
+        this.closeEditModal();
+      },
+      error: (err: Error) => {
+        this.editLoading.set(false);
+        this.saveError.set(err.message ?? 'Failed to save intent');
+      },
+    });
   }
 
   closeEditModal(): void {
@@ -218,12 +232,26 @@ export class IntentsComponent {
       releasePhase: formData.releasePhase,
       trainingExamples: formData.trainingExamples,
       channels: formData.channels,
+      apiCapabilities: formData.capabilityTags,
     };
-    this.intentService.addIntent(newIntent);
-    this.newModalOpen.set(false);
+    this.newModalLoading.set(true);
+    this.saveError.set(null);
+    this.intentService.createIntentViaApi(newIntent).subscribe({
+      next: () => {
+        this.newModalLoading.set(false);
+        this.newModalOpen.set(false);
+      },
+      error: (err: Error) => {
+        this.newModalLoading.set(false);
+        this.saveError.set(err.message ?? 'Failed to create intent');
+      },
+    });
   }
 
-  closeNewModal(): void { this.newModalOpen.set(false); }
+  closeNewModal(): void {
+    this.newModalOpen.set(false);
+    this.newModalLoading.set(false);
+  }
 
   // ---- Header buttons ----
   onReloadRegistry(): void { this.intentService.loadIntents(); }
