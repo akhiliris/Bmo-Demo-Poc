@@ -17,7 +17,7 @@
   margin: 0;
   font-family: 'Heebo', Roboto, sans-serif;
   font-size: 14px;
-  line-height: 21px;
+  line-height: 12px;
   color: rgb(34, 34, 34);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -70,7 +70,7 @@
   background: rgb(237, 28, 36);
   color: #ffffff;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 13.2px;
   font-family: 'Heebo', sans-serif;
   letter-spacing: -0.5px;
   display: flex;
@@ -83,7 +83,7 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10.5px;
   z-index: 1;
 }
 
@@ -102,8 +102,8 @@
 
 .search-input {
   width: 168px;
-  height: 30px;
-  padding: 0 10px 0 27px;
+  height: 29px;
+  padding: 0px 0px 0px 28px;
   font-size: 12px;
   font-weight: 400;
   font-family: 'Heebo', sans-serif;
