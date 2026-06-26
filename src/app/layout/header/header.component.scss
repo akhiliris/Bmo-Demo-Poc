@@ -10,7 +10,7 @@
   justify-content: space-between;
   height: 64px;
   background: linear-gradient(90deg, rgb(0, 121, 193) 0%, rgb(30, 136, 229) 100%);
-  padding: 0 12px;
+  padding: 0 13px;
   position: relative;
   z-index: 30;
   box-sizing: border-box;
@@ -91,6 +91,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .search-icon {
@@ -102,6 +103,7 @@
 
 .search-input {
   width: 168px;
+  min-width: 168px;
   height: 29px;
   padding: 0px 0px 0px 28px;
   font-size: 12px;
@@ -131,7 +133,7 @@
 // ---- User section (separated by left border) ----
 .user-section {
   display: flex;
-  margin-right: 2px;
+  margin-right: 1px;
   align-items: center;
   gap: 7px;
   padding-left: 10px;
@@ -144,7 +146,7 @@
   border-radius: 50%;
   background: #ffffff;
   border: 1.5px solid rgba(255, 255, 255, 0.7);
-  color: #2563EB;
+  color: #1447E6;
   font-size: 11px;
   font-weight: 700;
   font-family: 'Heebo', sans-serif;
@@ -153,7 +155,7 @@
   justify-content: center;
   flex-shrink: 0;
   user-select: none;
-  letter-spacing: 0.3px;
+  letter-spacing: 0;
 }
 
 .user-info {
