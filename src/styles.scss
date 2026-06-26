@@ -46,8 +46,8 @@ html.no-transitions *::after {
 }
 /* Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+  scrollbar-width: inherit;
+  scrollbar-color: rgba(0, 0, 0, 0.48) transparent;
 }
 
 /* Tailwind-like utility resets */

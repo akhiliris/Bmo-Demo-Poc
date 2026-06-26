@@ -41,7 +41,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     .main-content {
       flex: 1;
       min-width: 0;
-      overflow-y: auto;
+      overflow: hidden;
       background: rgb(247, 248, 250);
     }
   `]

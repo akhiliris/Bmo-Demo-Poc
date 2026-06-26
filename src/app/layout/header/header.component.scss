@@ -26,7 +26,7 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   z-index: 1;
 }
 
@@ -49,7 +49,7 @@
 }
 
 .page-label {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
   color: #ffffff;
@@ -96,33 +96,33 @@
 
 .search-icon {
   position: absolute;
-  left: 10px;
-  color: rgba(255, 255, 255, 0.6);
+  left: 12px;
+  color: rgba(255, 255, 255, 0.65);
   pointer-events: none;
 }
 
 .search-input {
-  width: 192px;
-  padding: 7px 12px 7px 32px;
+  width: 195px;
+  padding: 6px 12px 6px 32px;
   font-size: 12px;
   font-family: 'Heebo', sans-serif;
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 4px;
+  border-radius: 6px;
   outline: none;
   color: #ffffff;
 
-  &::placeholder { color: rgba(255, 255, 255, 0.6); }
+  &::placeholder { color: rgba(255, 255, 255, 0.65); }
 
   &:focus {
-    background: rgba(255, 255, 255, 0.20);
-    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   // Remove browser default search cancel button styling
   &::-webkit-search-cancel-button { -webkit-appearance: none; }
 
-  @media (max-width: 900px) { width: 140px; }
+  @media (max-width: 900px) { width: 160px; }
   @media (max-width: 640px) { display: none; }
 }
 
@@ -140,8 +140,8 @@
   height: 28px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
-  color: rgb(29, 78, 216);
-  font-size: 11px;
+  color: rgb(0, 121, 193);
+  font-size: 10px;
   font-weight: 700;
   font-family: 'Heebo', sans-serif;
   display: flex;
@@ -149,6 +149,7 @@
   justify-content: center;
   flex-shrink: 0;
   user-select: none;
+  letter-spacing: 0.3px;
 }
 
 .user-info {
@@ -162,14 +163,14 @@
 }
 
 .user-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   font-family: 'Heebo', sans-serif;
   color: #ffffff;
 }
 
 .user-role {
-  font-size: 11px;
+  font-size: 10.5px;
   font-family: 'Heebo', sans-serif;
   color: rgba(255, 255, 255, 0.7);
 }
