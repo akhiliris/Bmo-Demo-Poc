@@ -70,14 +70,14 @@ $primary-focus: rgba(0, 121, 193, 0.15);
 // ---- Tabs ----
 .modal-tabs {
   display: flex;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #f5f5f7;
   background: #ffffff;
   flex-shrink: 0;
   gap: 0;
 }
 
 .tab-btn {
-  padding: 12px 16px;
+  padding: 10px 16px;
   font-size: 13px;
   font-weight: 400;
   font-family: 'Heebo', sans-serif;
@@ -659,16 +659,21 @@ $primary-focus: rgba(0, 121, 193, 0.15);
 }
 
 .btn-next {
-  font-size: 13.5px;
-  font-weight: 600;
-  font-family: 'Heebo', sans-serif;
-  padding: 8px 28px;
-  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Heebo', Roboto, sans-serif;
+  padding: 7px 14px;
+  border-radius: 8.75px;
   border: none;
-  background: $primary;
-  color: #ffffff;
+  background: rgb(0, 121, 193);
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  transition: opacity 0.15s;
+  line-height: 19.5px;
+  text-align: center;
+  box-sizing: border-box;
+  transition-property: opacity;
+  transition-duration: 0.15s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover:not(:disabled) { opacity: 0.88; }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
