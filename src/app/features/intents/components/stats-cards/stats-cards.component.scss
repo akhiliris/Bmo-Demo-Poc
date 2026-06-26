@@ -8,7 +8,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
-  padding: 14px 24px;
+  padding: 14px 21px 14px 21px;
   background: rgb(247, 248, 250);
 }
 
@@ -16,15 +16,14 @@
   background: #ffffff;
   border: 1px solid rgb(228, 232, 238);
   border-radius: 12px;
-  padding: 14px 20px;
+  padding: 14px 17.5px 0;
   height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: box-shadow 0.15s, border-color 0.15s;
+  transition: border-color 0.15s;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
     border-color: rgb(210, 218, 228);
   }
 }
@@ -42,6 +41,7 @@
 .stat-value {
   font-size: 32px;
   font-weight: 300;
+  padding-bottom: 14px;
   font-family: 'Heebo', sans-serif;
   line-height: 1;
   margin: 0;

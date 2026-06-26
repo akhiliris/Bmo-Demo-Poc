@@ -1,44 +1,63 @@
+// ── Design tokens ─────────────────────────────────────────────────────────────
+$sidebar-bg:       #ffffff;
+$sidebar-brand-bg: #ffffff;
+$sidebar-border:   rgb(228, 232, 238);
+$primary:          rgb(0, 121, 193);
+
+$icon-normal:      #6b7280;
+$icon-active:      $primary;
+$text-normal:      #374151;
+$text-active:      $primary;
+$hover-bg:         #f9fafb;
+$active-bg:        rgb(244, 249, 253);
+$active-border:    $primary;
+$chevron-color:    #9ca3af;
+$sub-text:         #6b7280;
+$sub-active-bg:    rgb(244, 249, 253);
+
+// ── Host ──────────────────────────────────────────────────────────────────────
 :host {
   display: block;
   height: 100%;
-  flex-shrink: 0; // prevent host from being compressed by parent flex container
+  flex-shrink: 0;
 }
 
+// ── Sidebar shell ──────────────────────────────────────────────────────────────
 .sidebar {
-  width: 280px;
+  width: 260px;
   height: 100%;
-  background: #ffffff;
-  border-right: 1px solid rgb(228, 232, 238);
+  background: $sidebar-bg;
+  border-right: 1px solid $sidebar-border;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   font-family: 'Heebo', sans-serif;
   transition: width 250ms ease-in-out;
   flex-shrink: 0;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.18);
 }
 
-.sidebar.collapsed {
-  width: 72px;
-}
+.sidebar.collapsed { width: 72px; }
 
-// ---- Brand ----
+// ── Brand / logo area ─────────────────────────────────────────────────────────
+// NOTE: Only override properties that genuinely CHANGE in collapsed mode.
+// Repeating align-items / gap here would cause DevTools to strike-through the
+// base rule's declaration even though the value is the same — avoid that.
 .sidebar-brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: center;   // ← lives ONLY here; not repeated in collapsed override
+  gap: 10px;             // ← lives ONLY here; not repeated in collapsed override
   height: 64px;
   padding: 0 16px;
-  border-bottom: 1px solid rgb(228, 232, 238);
+  background: $sidebar-brand-bg;
+  border-bottom: 1px solid $sidebar-border;
   flex-shrink: 0;
   overflow: hidden;
 }
 
+// Collapsed: ONLY the props that actually differ from the base rule
 .sidebar.collapsed .sidebar-brand {
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  gap: 0;
-  width: 72px;
+  padding: 14px;
 }
 
 .brand-logo {
@@ -48,7 +67,7 @@
   background: rgb(237, 28, 36);
   color: #ffffff;
   font-weight: 700;
-  font-size: 10px;
+  font-size: 10.56px;
   font-family: 'Heebo', sans-serif;
   letter-spacing: -0.5px;
   display: flex;
@@ -82,45 +101,47 @@
   white-space: nowrap;
 }
 
-// ---- Nav ----
+// ── Nav scrollable area ────────────────────────────────────────────────────────
 .sidebar-nav {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 6px 0;
+  padding: 6px 7px 0px 0px;
 
   &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+  &::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 2px;
+  }
 }
 
-.nav-section {
-  /* container */
-}
-
+// ── Section button ─────────────────────────────────────────────────────────────
 .nav-section-btn {
   width: 100%;
-  height: 48px;
-  padding: 0 12px;
+  height: 46px;
+  padding: 0 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
   background: transparent;
   border: none;
-  color: #374151;
+  color: $text-normal;
   font-family: 'Heebo', sans-serif;
   transition: background-color 0.15s;
 
-  &:hover { background: #f9fafb; }
-  &.active { color: rgb(0, 121, 193); }
+  &:hover { background: $hover-bg; }
+
+  &.active {
+    color: $text-active;
+  }
 }
 
+// Collapsed: icon perfectly centred; only override what changes
 .sidebar.collapsed .nav-section-btn {
   padding: 0;
   position: relative;
 
-  // Absolute centering is immune to flex quirks — the icon is always
-  // pixel-perfectly centered in the 72px button regardless of anything else.
   .nav-icon {
     position: absolute;
     left: 50%;
@@ -137,32 +158,34 @@
 }
 
 .nav-icon {
-  color: #6b7280;
+  color: $icon-normal;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background-color 0.15s, padding 0.15s;
   line-height: 0;
+  transition: color 0.15s;
 
-  &.active { color: rgb(0, 121, 193); }
+  &.active { color: $icon-active; }
 }
 
 .nav-label {
   font-size: 12.5px;
   font-weight: 500;
+  color: inherit;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .nav-chevron {
-  color: #9ca3af;
+  color: $chevron-color;
   display: flex;
   align-items: center;
   flex-shrink: 0;
 }
 
+// ── Sub-list ───────────────────────────────────────────────────────────────────
 .nav-sub-list {
   overflow: hidden;
   transition: max-height 250ms ease-in-out;
@@ -171,14 +194,14 @@
 .nav-sub-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 38px;
-  padding-left: 40px;
-  padding-right: 12px;
-  font-size: 12.5px;
+  gap: 9px;
+  height: 36px;
+  padding-left: 42px;
+  padding-right: 14px;
+  font-size: 12px;
   font-family: 'Heebo', sans-serif;
   font-weight: 400;
-  color: #6b7280;
+  color: $sub-text;
   text-decoration: none;
   background: transparent;
   border-left: 2px solid transparent;
@@ -188,34 +211,38 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  &:hover { background: #f9fafb; }
+  &:hover {
+    background: $hover-bg;
+    color: rgba(255, 255, 255, 0.85);
+  }
 
   .sub-icon {
-    color: #9ca3af;
+    color: rgba(255, 255, 255, 0.30);
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    transition: color 0.15s;
   }
 }
 
 :host ::ng-deep .sub-item-active {
-  color: rgb(0, 121, 193) !important;
+  color: $primary !important;
   font-weight: 600 !important;
-  background: rgb(244, 249, 253) !important;
-  border-left-color: rgb(0, 121, 193) !important;
+  background: $sub-active-bg !important;
+  border-left-color: $primary !important;
 
-  .sub-icon { color: rgb(0, 121, 193) !important; }
+  .sub-icon { color: $primary !important; }
 }
 
-// ---- Footer ----
+// ── Footer ─────────────────────────────────────────────────────────────────────
 .sidebar-footer {
-  height: 38px;
-  border-top: 1px solid rgb(228, 232, 238);
+  height: 40px;
+  border-top: 1px solid $sidebar-border;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 0 12px;
+  padding: 0 14px;
 }
 
 .app-version {
